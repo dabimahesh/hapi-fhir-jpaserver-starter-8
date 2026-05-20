@@ -12,6 +12,13 @@ import ca.uhn.fhir.jpa.subscription.match.config.SubscriptionProcessorConfig;
 import ca.uhn.fhir.jpa.subscription.match.config.WebsocketDispatcherConfig;
 import ca.uhn.fhir.jpa.subscription.submit.config.SubscriptionSubmitterConfig;
 import ca.uhn.fhir.rest.server.RestfulServer;
+import custom.helper.HapiPropertiesConfig;
+import custom.interceptor.AuthorizationInterceptorEx;
+import custom.interceptor.GranularScopePostResponseInterceptor;
+import custom.interceptor.IncomingRequestPreProcessInterceptor;
+import custom.interceptor.TenantIdentificationInterceptor;
+import custom.metadataex.CustomCapabilityStatementProvider;
+import custom.wellknown.WellKnownServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
@@ -22,11 +29,13 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Import;
 
 @ServletComponentScan(basePackageClasses = {RestfulServer.class})
 @SpringBootApplication(exclude = {ThymeleafAutoConfiguration.class, QuartzAutoConfiguration.class})
+@ComponentScan(basePackages = {"ca.uhn.fhir.jpa.starter", "custom", "custom.wellknown", "custom.multitenancy", "custom.helper"})
 @Import({
 	StarterCrR4Config.class,
 	StarterCrDstu3Config.class,
@@ -61,6 +70,60 @@ public class Application extends SpringBootServletInitializer {
 		servletRegistrationBean.addUrlMappings("/fhir/*");
 		servletRegistrationBean.setLoadOnStartup(1);
 
+		// Register AuthorizationInterceptorEx
+		if (EnableAuthorizationInterceptor()){
+			AuthorizationInterceptorEx authorizationInterceptor = new AuthorizationInterceptorEx();
+			restfulServer.registerInterceptor(authorizationInterceptor);
+
+			restfulServer.registerInterceptor(new GranularScopePostResponseInterceptor());
+		}
+		// Register AuthorizationInterceptorEx
+
+		//To preprocess request
+		IncomingRequestPreProcessInterceptor incomingRequestPreProcessInterceptor = new IncomingRequestPreProcessInterceptor();
+		restfulServer.registerInterceptor(incomingRequestPreProcessInterceptor);
+		//To preprocess request
+
+		// This will load custom capabilitystatement
+		CustomCapabilityStatementProvider customCapabilityStatementProvider = new CustomCapabilityStatementProvider(restfulServer);
+		restfulServer.setServerConformanceProvider(customCapabilityStatementProvider);
+		// This will load custom capabilitystatement
+
+		// Multitenancy
+		restfulServer.registerInterceptor(new TenantIdentificationInterceptor());
+
+		// Removing temporarily
+		//restfulServer.registerInterceptor(new TenantContextCleanupInterceptor());
+		// Multitenancy
+
 		return servletRegistrationBean;
+	}
+
+
+	private static boolean EnableAuthorizationInterceptor() {
+		boolean returnValue = true;
+
+		try
+		{
+			HapiPropertiesConfig hapiConfig = new HapiPropertiesConfig();
+			String getSecurityValue = hapiConfig.getEnablesecurity();
+
+			if (getSecurityValue.toLowerCase().equals("false")){
+				returnValue = false;
+			}
+		}
+		catch (Exception e){
+
+		}
+
+		return returnValue;
+	}
+
+	@Bean
+	public ServletRegistrationBean<WellKnownServlet> wellKnownServlet() {
+		// Register the servlet with the desired URL pattern
+		ServletRegistrationBean<WellKnownServlet> bean = new ServletRegistrationBean<>(new WellKnownServlet(), "/fhir/.well-known/*");
+		bean.setLoadOnStartup(1);
+		return bean;
 	}
 }

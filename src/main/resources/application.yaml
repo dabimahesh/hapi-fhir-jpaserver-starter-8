@@ -5,7 +5,7 @@ server:
   # Uncomment to serve FHIR under a non-default context path (e.g., /example/path/fhir)
   # servlet:
   #   context-path: /example/path
-  port: 8080
+  port: 8007
   tomcat:
     # allow | as a separator in URLs
     relaxed-query-chars: "|"
@@ -104,10 +104,10 @@ spring:
 
   datasource:
     # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:h2:mem:test_mem
-    username: sa
-    password: null
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/fhirdb_hapi_8
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
     # max-active: 15     # (ignored with HikariCP; use hikari.maximum-pool-size)
     hikari:
       maximum-pool-size: 10
@@ -120,7 +120,7 @@ spring:
         # Hibernate dialect is auto-detected except for H2/Postgres.
         # If using H2:     ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
         # If using Postgres: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
-        dialect: ${HIBERNATE_DIALECT:ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect}
+        dialect: ${HIBERNATE_DIALECT:ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect}
 
         # --- Optional Hibernate DDL & tuning (commented out from source) ---
         hbm2ddl:
@@ -498,6 +498,6 @@ hapi:
     tester:
       home:
         name: Local Tester
-        server_address: 'http://localhost:8080/fhir'
+        server_address: 'http://localhost:8007/fhirserver/fhir'
         refuse_to_fetch_third_party_urls: false
         fhir_version: R4

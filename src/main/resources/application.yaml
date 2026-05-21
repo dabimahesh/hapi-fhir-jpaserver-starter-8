@@ -278,7 +278,7 @@ hapi:
     # language_search_parameter_enabled: true
     # upliftedRefchains_enabled: true
     # index_storage_optimized: false
-    # enable_index_missing_fields: false
+    enable_index_missing_fields: true
     # enable_index_of_type: true
     # enable_index_contained_resource: false
     # store_resource_in_lucene_index_enabled: true
@@ -292,7 +292,7 @@ hapi:
     # -------------------------------------------------------------------------------
     # E. Bulk Operations
     # -------------------------------------------------------------------------------
-    bulk_export_enabled: false
+    bulk_export_enabled: true
     bulk_import_enabled: false
     bulk_export_file_retention_period_hours: 2
 
@@ -308,9 +308,9 @@ hapi:
     # mass_ingestion_mode_enabled: false
     # auto_version_reference_at_paths: Device.patient, Device.location, Device.parent, DeviceMetric.parent, DeviceMetric.source, Observation.device, Observation.subject
     # client_id_strategy: ALPHANUMERIC
-    # server_id_strategy: SEQUENTIAL_NUMERIC
-    # enforce_referential_integrity_on_delete: false
-    # enforce_referential_integrity_on_write: false
+    server_id_strategy: UUID
+    enforce_referential_integrity_on_delete: false
+    enforce_referential_integrity_on_write: false
     # etag_support_enabled: true
     # expunge_enabled: true
     # fhirpath_interceptor_enabled: false
@@ -371,7 +371,7 @@ hapi:
     # K. CORS
     # -------------------------------------------------------------------------------
     cors:
-      # allow_Credentials: false
+      allow_Credentials: true
       allowed_origin:
         - "*"
       # If you enable allow_Credentials=true, use explicit origins instead of "*".

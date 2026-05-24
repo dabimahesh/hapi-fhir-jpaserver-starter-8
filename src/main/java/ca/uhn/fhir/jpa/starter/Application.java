@@ -12,13 +12,13 @@ import ca.uhn.fhir.jpa.subscription.match.config.SubscriptionProcessorConfig;
 import ca.uhn.fhir.jpa.subscription.match.config.WebsocketDispatcherConfig;
 import ca.uhn.fhir.jpa.subscription.submit.config.SubscriptionSubmitterConfig;
 import ca.uhn.fhir.rest.server.RestfulServer;
-import custom.helper.HapiPropertiesConfig;
-import custom.interceptor.AuthorizationInterceptorEx;
-import custom.interceptor.GranularScopePostResponseInterceptor;
-import custom.interceptor.IncomingRequestPreProcessInterceptor;
-import custom.interceptor.TenantIdentificationInterceptor;
-import custom.metadataex.CustomCapabilityStatementProvider;
-import custom.wellknown.WellKnownServlet;
+import ca.uhn.fhir.jpa.starter.custom.helper.HapiPropertiesConfig;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.AuthorizationInterceptorEx;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.GranularScopePostResponseInterceptor;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.IncomingRequestPreProcessInterceptor;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.TenantIdentificationInterceptor;
+import ca.uhn.fhir.jpa.starter.custom.metadataex.CustomCapabilityStatementProvider;
+import ca.uhn.fhir.jpa.starter.custom.wellknown.WellKnownServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
@@ -28,14 +28,10 @@ import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfigurati
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 
 @ServletComponentScan(basePackageClasses = {RestfulServer.class})
 @SpringBootApplication(exclude = {ThymeleafAutoConfiguration.class, QuartzAutoConfiguration.class})
-@ComponentScan(basePackages = {"ca.uhn.fhir.jpa.starter", "custom", "custom.wellknown", "custom.multitenancy", "custom.helper"})
 @Import({
 	StarterCrR4Config.class,
 	StarterCrDstu3Config.class,

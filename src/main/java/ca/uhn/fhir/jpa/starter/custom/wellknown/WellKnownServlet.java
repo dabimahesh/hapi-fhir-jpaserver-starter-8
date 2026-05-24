@@ -1,7 +1,7 @@
-package custom.wellknown;
+package ca.uhn.fhir.jpa.starter.custom.wellknown;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import custom.helper.HapiPropertiesConfig;
+import ca.uhn.fhir.jpa.starter.custom.helper.HapiPropertiesConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

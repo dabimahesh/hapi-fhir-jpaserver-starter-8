@@ -1,9 +1,9 @@
-package custom.multitenancy;
+package ca.uhn.fhir.jpa.starter.custom.multitenancy;
 
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
-import custom.helper.CommonHelper;
-import custom.object.MoreConfig;
-import custom.object.TenantDetails;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.object.MoreConfig;
+import ca.uhn.fhir.jpa.starter.custom.object.TenantDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

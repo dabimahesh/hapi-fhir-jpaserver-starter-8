@@ -2,7 +2,7 @@
   "tenants": [
     {
       "name": "default",
-      "url": "jdbc:postgresql://localhost:5432/fhirdb_hapi_baseline",
+      "url": "jdbc:postgresql://localhost:5432/fhirdb_hapi_8",
       "username": "postgres",
       "password": "postgres",
       "driverClassName": "org.postgresql.Driver",

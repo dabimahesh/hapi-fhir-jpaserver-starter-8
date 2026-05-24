@@ -1,8 +1,8 @@
-package custom.multitenancy;
+package ca.uhn.fhir.jpa.starter.custom.multitenancy;
 
 import ca.uhn.fhir.jpa.starter.common.FhirServerConfigCommon;
 
-import custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 public class TenantRoutingDataSource extends AbstractRoutingDataSource {

@@ -1,9 +1,12 @@
-package custom.interceptor;
+package ca.uhn.fhir.jpa.starter.custom.interceptor;
 
 import ca.uhn.fhir.batch2.model.JobInstance;
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Pointcut;
 import ca.uhn.fhir.jpa.starter.common.FhirServerConfigCommon;
+import ca.uhn.fhir.jpa.starter.custom.dbaccess.DatabaseHelper;
+import ca.uhn.fhir.jpa.starter.custom.helper.*;
+import ca.uhn.fhir.jpa.starter.custom.object.*;
 import ca.uhn.fhir.rest.api.RequestTypeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
@@ -13,9 +16,7 @@ import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
 import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import custom.dbaccess.DatabaseHelper;
-import custom.helper.*;
-import custom.object.*;
+
 import javassist.NotFoundException;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.IdType;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
+import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
 
 // import static custom.helper..GetNeededPermission;
 

@@ -1,8 +1,9 @@
-package custom.dbaccess;
+package ca.uhn.fhir.jpa.starter.custom.dbaccess;
 
-import custom.helper.CommonHelper;
-import custom.object.MoreConfig;
-import custom.object.TenantDetails;
+
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.object.MoreConfig;
+import ca.uhn.fhir.jpa.starter.custom.object.TenantDetails;
 
 import javax.sql.DataSource;
 import java.sql.*;

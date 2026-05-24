@@ -1,4 +1,4 @@
-package custom.dbaccess;
+package ca.uhn.fhir.jpa.starter.custom.dbaccess;
 
 import ca.uhn.fhir.batch2.model.JobInstance;
 import org.quartz.Job;

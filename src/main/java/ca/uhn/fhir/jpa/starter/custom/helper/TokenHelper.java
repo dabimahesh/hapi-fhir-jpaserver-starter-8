@@ -1,9 +1,9 @@
-package custom.helper;
+package ca.uhn.fhir.jpa.starter.custom.helper;
 
+import ca.uhn.fhir.jpa.starter.custom.object.TokenDetails;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import custom.object.TokenDetails;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

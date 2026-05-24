@@ -1,4 +1,4 @@
-package custom.object;
+package ca.uhn.fhir.jpa.starter.custom.object;
 
 public class AuditItems {
 	public String action;

@@ -1,5 +1,7 @@
-package custom.helper;
-import custom.object.SubScope;
+package ca.uhn.fhir.jpa.starter.custom.helper;
+
+
+import ca.uhn.fhir.jpa.starter.custom.object.SubScope;
 
 import java.util.Objects;
 public class Scope {

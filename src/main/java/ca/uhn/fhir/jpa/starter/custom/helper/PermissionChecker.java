@@ -1,9 +1,9 @@
-package custom.helper;
+package ca.uhn.fhir.jpa.starter.custom.helper;
 
+import ca.uhn.fhir.jpa.starter.custom.object.TokenDetails;
 import ca.uhn.fhir.rest.api.RequestTypeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
-import custom.object.SubScope;
-import custom.object.TokenDetails;
+
 
 import java.util.ArrayList;
 import java.util.List;

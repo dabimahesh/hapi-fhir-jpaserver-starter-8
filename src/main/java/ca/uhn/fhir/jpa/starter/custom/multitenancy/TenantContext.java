@@ -1,4 +1,4 @@
-package custom.multitenancy;
+package ca.uhn.fhir.jpa.starter.custom.multitenancy;
 
 public class TenantContext {
 

@@ -1,10 +1,10 @@
-package custom.interceptor;
+package ca.uhn.fhir.jpa.starter.custom.interceptor;
 
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Pointcut;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
-import custom.helper.CommonHelper;
-import custom.multitenancy.TenantContext;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.multitenancy.TenantContext;
 
 public class TenantIdentificationInterceptor {
 

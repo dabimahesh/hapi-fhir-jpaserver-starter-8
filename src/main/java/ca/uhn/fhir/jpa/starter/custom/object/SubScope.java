@@ -1,6 +1,6 @@
-package custom.object;
+package ca.uhn.fhir.jpa.starter.custom.object;
 
-import custom.helper.Scope;
+import ca.uhn.fhir.jpa.starter.custom.helper.Scope;
 
 public class SubScope {
 	public String m_name;

@@ -1,6 +1,6 @@
-package custom.multitenancy;
+package ca.uhn.fhir.jpa.starter.custom.multitenancy;
 
-import custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

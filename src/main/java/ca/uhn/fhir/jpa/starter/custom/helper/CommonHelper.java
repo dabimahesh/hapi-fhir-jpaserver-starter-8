@@ -1,14 +1,13 @@
-package custom.helper;
+package ca.uhn.fhir.jpa.starter.custom.helper;
 
+import ca.uhn.fhir.jpa.starter.custom.object.MoreConfig;
+import ca.uhn.fhir.jpa.starter.custom.object.TokenDetails;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import custom.object.MoreConfig;
-import custom.object.TenantDetails;
-import custom.object.TokenDetails;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -233,7 +232,7 @@ public class CommonHelper {
 		return tenantname.toLowerCase();
 	}
 
-	public static MoreConfig  GetMoreConfigFromConfig() {
+	public static MoreConfig GetMoreConfigFromConfig() {
 		MoreConfig moreConfig = new MoreConfig();
 
 		try {

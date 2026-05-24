@@ -1,4 +1,4 @@
-package custom.helper;
+package ca.uhn.fhir.jpa.starter.custom.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

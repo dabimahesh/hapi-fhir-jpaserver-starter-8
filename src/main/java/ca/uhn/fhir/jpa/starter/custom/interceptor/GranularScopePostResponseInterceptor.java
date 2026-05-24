@@ -1,4 +1,4 @@
-package custom.interceptor;
+package ca.uhn.fhir.jpa.starter.custom.interceptor;
 
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Interceptor;
@@ -10,11 +10,11 @@ import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import ca.uhn.fhir.rest.server.interceptor.BaseResponseTerminologyInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import custom.helper.CommonHelper;
-import custom.helper.Scope;
-import custom.helper.TokenHelper;
-import custom.object.SubScope;
-import custom.object.TokenDetails;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.helper.Scope;
+import ca.uhn.fhir.jpa.starter.custom.helper.TokenHelper;
+import ca.uhn.fhir.jpa.starter.custom.object.SubScope;
+import ca.uhn.fhir.jpa.starter.custom.object.TokenDetails;
 import jakarta.servlet.http.HttpServletResponse;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import static custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
-import static custom.helper.CommonHelper.JOB_ID_PATTERN;
+import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
+import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.JOB_ID_PATTERN;
 
 @Interceptor
 public class GranularScopePostResponseInterceptor {

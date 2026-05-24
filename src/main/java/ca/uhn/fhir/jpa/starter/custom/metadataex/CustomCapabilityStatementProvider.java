@@ -1,8 +1,8 @@
-package custom.metadataex;
+package ca.uhn.fhir.jpa.starter.custom.metadataex;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.provider.ServerCapabilityStatementProvider;
-import custom.helper.CommonHelper;
+import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.springframework.core.io.ClassPathResource;

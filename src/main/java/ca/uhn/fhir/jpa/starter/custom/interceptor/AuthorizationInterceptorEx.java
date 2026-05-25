@@ -617,7 +617,13 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 							.atAnyLevel().andAllowAllResponsesWithAllResourcesAccess()
 							.build();
 					}
-
+					else if (operationType.toLowerCase().equals(CommonHelper.OPERATION_TYPE_INQUIRE))
+					{
+						ruleList = new RuleBuilder()
+							.allow().operation().named(CommonHelper.OPERATION_TYPE_INQUIRE)
+							.atAnyLevel().andAllowAllResponsesWithAllResourcesAccess()
+							.build();
+					}
 					else if (operationType.toLowerCase().equals(CommonHelper.OPERATION_TYPE_EXPORT_POLL_STATUS)) {
 						ruleList = new RuleBuilder()
 							.allow().operation().named(CommonHelper.OPERATION_TYPE_EXPORT_POLL_STATUS)

@@ -421,7 +421,7 @@ hapi:
 
     # custom-bean-packages:
     # custom-interceptor-classes:
-    custom-provider-classes: ca.uhn.fhir.jpa.starter.custom.miscellaneous.ClaimSubmitOperationProvider
+    custom-provider-classes: ca.uhn.fhir.jpa.starter.custom.miscellaneous.ClaimSubmitOperationProvider,ca.uhn.fhir.jpa.starter.custom.miscellaneous.ClaimInquireOperationProvider
     
     # store_meta_source_information: NONE
     # bundle_batch_pool_size: 10

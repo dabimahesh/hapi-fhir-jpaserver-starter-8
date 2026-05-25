@@ -610,6 +610,14 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 							.build();
 					}
 
+					else if (operationType.toLowerCase().equals(CommonHelper.OPERATION_TYPE_SUBMIT))
+					{
+						ruleList = new RuleBuilder()
+							.allow().operation().named(CommonHelper.OPERATION_TYPE_SUBMIT)
+							.atAnyLevel().andAllowAllResponsesWithAllResourcesAccess()
+							.build();
+					}
+
 					else if (operationType.toLowerCase().equals(CommonHelper.OPERATION_TYPE_EXPORT_POLL_STATUS)) {
 						ruleList = new RuleBuilder()
 							.allow().operation().named(CommonHelper.OPERATION_TYPE_EXPORT_POLL_STATUS)

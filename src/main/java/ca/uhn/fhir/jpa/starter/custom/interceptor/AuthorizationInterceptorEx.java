@@ -3,6 +3,7 @@ package ca.uhn.fhir.jpa.starter.custom.interceptor;
 import ca.uhn.fhir.batch2.model.JobInstance;
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Pointcut;
+import ca.uhn.fhir.interceptor.model.RequestPartitionId;
 import ca.uhn.fhir.jpa.starter.common.FhirServerConfigCommon;
 import ca.uhn.fhir.jpa.starter.custom.dbaccess.DatabaseHelper;
 import ca.uhn.fhir.jpa.starter.custom.helper.*;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
+import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.*;
 
 // import static custom.helper..GetNeededPermission;
 
@@ -54,9 +55,7 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 	@Hook(Pointcut.SERVER_INCOMING_REQUEST_PRE_HANDLED)
 	public void authorizeRequest(RequestDetails requestDetails) throws JsonProcessingException {
 
-		if (CommonHelper.CONFORMANCE_PATH_METADATA.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_OPENID.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_SMART.equals(requestDetails.getRequestPath()))
+		if (AllowOpenURLs(requestDetails))
 		{
 			/*
 			try
@@ -68,12 +67,17 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 			}
 			*/
 
-			if (CommonHelper.CONFORMANCE_PATH_METADATA.equals(requestDetails.getRequestPath()))
+			//if (CommonHelper.CONFORMANCE_PATH_METADATA.equals(requestDetails.getRequestPath()))
+			if (requestDetails.getRequestPath().toLowerCase().contains(CommonHelper.CONFORMANCE_PATH_METADATA.toLowerCase()))
 			{
 				requestDetails.addParameter("_format", new String[]{"json"});
 			}
-		}
-		else {
+		} else if (
+			CommonHelper.OPERATION_TYPE_PARTITION_MANAGEMENT_CREATE_PARTITION.equals(requestDetails.getRequestPath())) {
+			if (!AllowCreatePartition()){
+				throw new AuthenticationException("Please set server.allowcreatepartition to true in config file.");
+			}
+		} else {
 			TokenDetails tokendets = GetTokenDetailsFromTokenString(requestDetails);
 
 			// Check if token is revoked
@@ -89,9 +93,14 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 				throw new AuthenticationException("Authorization token is invalid");
 			}
 
-			// checking for valid tenantid
+			String tenantId = requestDetails.getTenantId();
+			String xfhirtenantid = tenantId;
+			// earlier this was done manually
+			// now, with url based tenancy this happens automatically
+			/*
 			String xfhirtenantid = "";
 			try {
+				String tenantId = requestDetails.getTenantId();
 				xfhirtenantid = requestDetails.getHeader(CommonHelper.TENANT_HEADER_NAME);
 			} catch (Exception e) {
 			}
@@ -100,6 +109,7 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 					throw new AuthenticationException("Invalid tenant id sent in header " + CommonHelper.TENANT_HEADER_NAME);
 				}
 			}
+			*/
 			//
 
 			//Checking if token is generated for this tenant
@@ -195,12 +205,15 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 			//auditItems.ipaddress = requestDetails
 			auditItems.targeturl = requestDetails.getRequestPath();
 
-			String xfhirtenantid = "default";
+			//String xfhirtenantid = "default";
+			String xfhirtenantid = requestDetails.getTenantId();
+			/*
 			try {
 				xfhirtenantid = requestDetails.getHeader(CommonHelper.TENANT_HEADER_NAME);
 				xfhirtenantid = xfhirtenantid.toLowerCase();
 			} catch (Exception e) {
 			}
+			*/
 
 			auditItems.tenant = xfhirtenantid;
 			auditItems.user = tokendets.sub;
@@ -282,6 +295,8 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 
 	private static boolean IsTenantValid(String inputTenantId) {
 		boolean returnValue = false;
+	// loop over all partitions and check if present
+		RequestPartitionId allparts = RequestPartitionId.allPartitions();
 
 		try {
 			if (inputTenantId != null && !inputTenantId.isEmpty()) {
@@ -365,7 +380,7 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 		boolean jobCancelled = false;
 
 		try{
-			JobInstance jobInstance = DatabaseHelper.GetJobInstanceByJobId(jobid, tenantname);
+			JobInstance jobInstance = DatabaseHelper.GetJobInstanceByJobId(jobid);
 
 			if (jobInstance.isCancelled()){
 				jobCancelled = true;
@@ -391,8 +406,11 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 				try {
 					jobId = requestDetails.getParameters().get("_jobId")[0];
 
+					tenantname = requestDetails.getTenantId();
+					/*
 					tenantname = requestDetails.getHeader(CommonHelper.TENANT_HEADER_NAME);
 					tenantname = CommonHelper.GetTenantNameBasedOnHeader(tenantname);
+					*/
 				} catch (Exception e) {
 				}
 
@@ -491,9 +509,7 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 		// Define authorization rules based on validated token or other criteria
 		// For example, you might want to allow certain operations based on the user's token
 
-		if (CommonHelper.CONFORMANCE_PATH_METADATA.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_OPENID.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_SMART.equals(requestDetails.getRequestPath())) {
+		if (AllowOpenURLs(requestDetails)) {
 
 			return new RuleBuilder()
 

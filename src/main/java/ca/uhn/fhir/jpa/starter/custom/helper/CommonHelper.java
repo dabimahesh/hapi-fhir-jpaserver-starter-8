@@ -32,6 +32,8 @@ public class CommonHelper {
 	public static String MORE_CONFIG_FILE_NAME = "moreconfig.json";
 	public static String HAPI_PROPERTIES_FILE_NAME = "hapi.properties";
 
+	public static String SYSTEM_REQUEST_DETAILS = "systemrequestdetails";
+	public static String OPERATION_TYPE_PARTITION_MANAGEMENT_CREATE_PARTITION = "$partition-management-create-partition";
 	public static String OPERATION_TYPE_INQUIRE = "$inquire";
 	public static String OPERATION_TYPE_SUBMIT = "$submit";
 	public static String OPERATION_TYPE_EVERYTHING = "$everything";
@@ -70,7 +72,7 @@ public class CommonHelper {
 	public static final String CONFORMANCE_PATH_WELLKNOWN_OPENID = ".well-known/openid-configuration";
 	public static final String CONFORMANCE_PATH_WELLKNOWN_SMART = ".well-known/smart-configuration";
 
-	public static final String TENANT_HEADER_NAME = "X-FHIR-TENANT-ID";
+	//public static final String TENANT_HEADER_NAME = "X-FHIR-TENANT-ID";
 	public static final String TENANT_NAME_DEFAULT = "default";
 
 	/*
@@ -90,6 +92,52 @@ public class CommonHelper {
 		return returnvalue * 1000;
 	}
 	*/
+
+	public static boolean AllowCreatePartition(){
+		boolean returnvalue = false;
+
+		try{
+			HapiPropertiesConfig hapiPropertiesConfig = new HapiPropertiesConfig();
+			String allowcreatepartition = hapiPropertiesConfig.getallowcreatepartition();
+
+			if (allowcreatepartition != null
+				&& allowcreatepartition.toLowerCase().equals("true")){
+				returnvalue = true;
+			}
+		} catch (Exception e) {
+		}
+
+		return returnvalue;
+	}
+
+	public static boolean AllowOpenURLs(RequestDetails requestDetails){
+		boolean returnvalue = false;
+
+		try{
+			String tenantname = requestDetails.getTenantId();
+			String requestpath = requestDetails.getRequestPath();
+
+			if (requestpath != null && !requestpath.isEmpty() ){
+				requestpath = requestpath.toLowerCase();
+			}
+
+			if (tenantname != null && !tenantname.isEmpty() ){
+				tenantname = tenantname.toLowerCase();
+
+				requestpath = requestpath.replace(tenantname + "/", "");
+			}
+
+			if (CommonHelper.CONFORMANCE_PATH_METADATA.toLowerCase().equals(requestpath) ||
+				CommonHelper.CONFORMANCE_PATH_WELLKNOWN_OPENID.toLowerCase().equals(requestpath) ||
+				CommonHelper.CONFORMANCE_PATH_WELLKNOWN_SMART.toLowerCase().equals(requestpath))
+			{
+				returnvalue = true;
+			}
+		} catch (Exception e) {
+		}
+
+		return returnvalue;
+	}
 
 	public static boolean AllowCheck_token_generated_for_this_fhir_server(){
 		boolean returnvalue = false;

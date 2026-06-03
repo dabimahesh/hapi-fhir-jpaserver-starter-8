@@ -6,6 +6,8 @@ import ca.uhn.fhir.jpa.starter.annotations.OnEitherVersion;
 import ca.uhn.fhir.jpa.starter.cdshooks.StarterCdsHooksConfig;
 import ca.uhn.fhir.jpa.starter.cr.StarterCrDstu3Config;
 import ca.uhn.fhir.jpa.starter.cr.StarterCrR4Config;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.*;
+import ca.uhn.fhir.jpa.starter.custom.multitenancy.TenantPartitionInterceptor;
 import ca.uhn.fhir.jpa.starter.mdm.MdmConfig;
 import ca.uhn.fhir.jpa.subscription.channel.config.SubscriptionChannelConfig;
 import ca.uhn.fhir.jpa.subscription.match.config.SubscriptionProcessorConfig;
@@ -13,12 +15,9 @@ import ca.uhn.fhir.jpa.subscription.match.config.WebsocketDispatcherConfig;
 import ca.uhn.fhir.jpa.subscription.submit.config.SubscriptionSubmitterConfig;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.jpa.starter.custom.helper.HapiPropertiesConfig;
-import ca.uhn.fhir.jpa.starter.custom.interceptor.AuthorizationInterceptorEx;
-import ca.uhn.fhir.jpa.starter.custom.interceptor.GranularScopePostResponseInterceptor;
-import ca.uhn.fhir.jpa.starter.custom.interceptor.IncomingRequestPreProcessInterceptor;
-import ca.uhn.fhir.jpa.starter.custom.interceptor.TenantIdentificationInterceptor;
 import ca.uhn.fhir.jpa.starter.custom.metadataex.CustomCapabilityStatementProvider;
-import ca.uhn.fhir.jpa.starter.custom.wellknown.WellKnownServlet;
+import ca.uhn.fhir.rest.server.interceptor.partition.RequestTenantPartitionInterceptor;
+import ca.uhn.fhir.rest.server.tenant.UrlBaseTenantIdentificationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +56,13 @@ public class Application extends SpringBootServletInitializer {
 	@Autowired
 	AutowireCapableBeanFactory beanFactory;
 
+	@Autowired
+	private RequestTenantPartitionInterceptor requestTenantPartitionInterceptor;
+
+	@Autowired
+	private TenantPartitionInterceptor tenantPartitionInterceptor;
+
+
 	@Bean
 	@Conditional(OnEitherVersion.class)
 	public ServletRegistrationBean hapiServletRegistration(RestfulServer restfulServer) {
@@ -65,6 +71,8 @@ public class Application extends SpringBootServletInitializer {
 		servletRegistrationBean.setServlet(restfulServer);
 		servletRegistrationBean.addUrlMappings("/fhir/*");
 		servletRegistrationBean.setLoadOnStartup(1);
+
+
 
 		// Register AuthorizationInterceptorEx
 		if (EnableAuthorizationInterceptor()){
@@ -86,11 +94,20 @@ public class Application extends SpringBootServletInitializer {
 		// This will load custom capabilitystatement
 
 		// Multitenancy
-		restfulServer.registerInterceptor(new TenantIdentificationInterceptor());
+		//restfulServer.registerInterceptor(new TenantIdentificationInterceptor());
 
 		// Removing temporarily
 		//restfulServer.registerInterceptor(new TenantContextCleanupInterceptor());
 		// Multitenancy
+
+		//restfulServer.registerInterceptor(new PASSubscriptionInterceptor());
+
+
+		restfulServer.setTenantIdentificationStrategy(new UrlBaseTenantIdentificationStrategy());
+		restfulServer.registerInterceptor(requestTenantPartitionInterceptor);
+
+		//restfulServer.registerInterceptor(new TenantPartitionInterceptor());
+		restfulServer.registerInterceptor(tenantPartitionInterceptor);
 
 		return servletRegistrationBean;
 	}
@@ -115,6 +132,7 @@ public class Application extends SpringBootServletInitializer {
 		return returnValue;
 	}
 
+	/*
 	@Bean
 	public ServletRegistrationBean<WellKnownServlet> wellKnownServlet() {
 		// Register the servlet with the desired URL pattern
@@ -122,4 +140,5 @@ public class Application extends SpringBootServletInitializer {
 		bean.setLoadOnStartup(1);
 		return bean;
 	}
+	*/
 }

@@ -20,6 +20,17 @@ public class DataLayer {
 		dbconnection.close();
 	}
 
+	public void Connect() {
+		try {
+			dbconnection =
+				DataSourceProvider.getDataSource().getConnection();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
 	public void Connect(){
 		MoreConfig moreConfig = CommonHelper.GetMoreConfigFromConfig();
 
@@ -45,9 +56,9 @@ public class DataLayer {
 			}
 		}
 	}
+	*/
 
-	public DataLayer(String tenantname){
-		TenantName = tenantname;
+	public DataLayer(){
 	}
 
 	public List<Map<String, Object>> execute(String query, Object[] params) throws SQLException {

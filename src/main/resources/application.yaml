@@ -104,7 +104,7 @@ spring:
 
   datasource:
     # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:postgresql://localhost:5432/fhirdb_hapi_8
+    url: jdbc:postgresql://localhost:5432/hapi_fhir_8_inferno_g10
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -359,13 +359,13 @@ hapi:
     # -------------------------------------------------------------------------------
     # J. Partitioning & Multitenancy
     # -------------------------------------------------------------------------------
-    # partitioning:
-    #   allow_references_across_partitions: false
-    #   partitioning_include_in_search_hashes: false
-    #   default_partition_id: 0
-    # database_partition_mode_enabled: true
-    # patient_id_partitioning_mode: true
-    # request_tenant_partitioning_mode: false
+    partitioning:
+       database_partition_mode_enabled: true
+       patient_id_partitioning_mode: false
+       request_tenant_partitioning_mode: true
+       allow_references_across_partitions: false
+       partitioning_include_in_search_hashes: false
+       default_partition_id: 0
 
     # -------------------------------------------------------------------------------
     # K. CORS

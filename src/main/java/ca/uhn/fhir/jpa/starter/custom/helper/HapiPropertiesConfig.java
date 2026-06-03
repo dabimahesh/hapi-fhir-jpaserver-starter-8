@@ -60,6 +60,10 @@ public class HapiPropertiesConfig {
 		return properties.getProperty("server.oauth.impose_security_on_patient_facing_client");
 	}
 
+	public String getallowcreatepartition() {
+		return properties.getProperty("server.allowcreatepartition");
+	}
+
 	public String getcheck_token_generated_for_this_tenant() {
 		return properties.getProperty("server.oauth.check_token_generated_for_this_tenant");
 	}

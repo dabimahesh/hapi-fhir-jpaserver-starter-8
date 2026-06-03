@@ -26,8 +26,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.GetTokenDetailsFromTokenString;
-import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.JOB_ID_PATTERN;
+import static ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper.*;
 
 @Interceptor
 public class GranularScopePostResponseInterceptor {
@@ -41,10 +40,7 @@ public class GranularScopePostResponseInterceptor {
 		//String resourceType = requestDetails.getResourceName();
 		RequestTypeEnum requestTypeEnum = requestDetails.getRequestType();
 
-		if (CommonHelper.CONFORMANCE_PATH_METADATA.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_OPENID.equals(requestDetails.getRequestPath()) ||
-			CommonHelper.CONFORMANCE_PATH_WELLKNOWN_SMART.equals(requestDetails.getRequestPath())) {
-
+		if (AllowOpenURLs(requestDetails)) {
 			return;
 		}
 

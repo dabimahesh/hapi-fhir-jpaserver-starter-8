@@ -1,14 +1,11 @@
 package ca.uhn.fhir.jpa.starter.custom.interceptor;
 
 import ca.uhn.fhir.interceptor.api.Hook;
-import ca.uhn.fhir.interceptor.api.Interceptor;
 import ca.uhn.fhir.interceptor.api.Pointcut;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
-import ca.uhn.fhir.rest.api.server.ResponseDetails;
 import ca.uhn.fhir.rest.server.provider.ProviderConstants;
 import ca.uhn.fhir.jpa.starter.custom.helper.CommonHelper;
 import ca.uhn.fhir.jpa.starter.custom.helper.HapiPropertiesConfig;
-import ca.uhn.fhir.jpa.starter.custom.multitenancy.TenantContext;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

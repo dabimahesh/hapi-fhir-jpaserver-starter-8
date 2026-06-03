@@ -105,7 +105,8 @@ public class TenantPartitionInterceptor {
 
 
 		String operation = requestDetails.getOperation();
-		if (CommonHelper.OPERATION_TYPE_PARTITION_MANAGEMENT_CREATE_PARTITION.equals(operation)) {
+		if (operation !=null &&
+			CommonHelper.OPERATION_TYPE_PARTITION_MANAGEMENT_CREATE_PARTITION.equals(operation)) {
 			return RequestPartitionId.defaultPartition();
 		}
 

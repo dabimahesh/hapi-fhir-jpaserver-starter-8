@@ -239,6 +239,8 @@ public class AuthorizationInterceptorEx extends AuthorizationInterceptor {
 
 			if (audFromToken.toLowerCase().equals(fhirbaseurl.toLowerCase())) {
 				returnValue = true;
+			} else if (fhirbaseurl.toLowerCase().contains(audFromToken.toLowerCase())) {
+				returnValue = true;
 			}
 		} catch (Exception e) {
 			returnValue = true;

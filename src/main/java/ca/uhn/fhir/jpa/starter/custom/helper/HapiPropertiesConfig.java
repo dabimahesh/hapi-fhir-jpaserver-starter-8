@@ -36,9 +36,11 @@ public class HapiPropertiesConfig {
 		return properties.getProperty("server.oauth.check_token_revoked_using_introspection");
 	}
 
+	/*
 	public String gettime_interval_for_task_scheduler_bulkexportinitializer() {
 		return properties.getProperty("server.time_interval_for_task_scheduler_bulkexportinitializer");
 	}
+	*/
 
 	public String getcheck_token_generated_for_this_fhir_server() {
 		return properties.getProperty("server.oauth.check_token_generated_for_this_fhir_server");
